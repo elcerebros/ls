@@ -21,7 +21,7 @@ public class LsLauncher {
     @Option(name = "-o", metaVar = "OutputName", usage = "Output file name")
     private String outputFileName;
 
-    @Argument(required = true, metaVar = "InputName", usage = "Input file name")
+    @Argument(required = true, metaVar = "InputName", usage = "Input file/directory name")
     private String pathIn;
 
     public static void main(String[] args) {
@@ -40,14 +40,12 @@ public class LsLauncher {
             return;
         }
 
-        Ls path = new Ls(longForm, humanReadableForm, reverseForm, outputFileName, pathIn);
+        Ls path = new Ls(longForm, humanReadableForm, reverseForm);
         try {
-            int result = path.ls(pathIn, outputFileName);
-            System.out.println("Total of " + result + " symbols recoded");
+            String result = path.ls(outputFileName, pathIn);
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
-
 
     }
 }
