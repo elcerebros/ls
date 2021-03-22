@@ -1,6 +1,10 @@
 package ls;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 
 @SuppressWarnings("WeakerAccess")
 public class Ls {
@@ -10,16 +14,41 @@ public class Ls {
 
     private final Boolean reverseForm;
 
-    public Ls(Boolean longForm, Boolean humanReadableForm, Boolean reverseForm) {
+    private final Boolean outputFileNameFlag;
+
+    public Ls(Boolean longForm, Boolean humanReadableForm, Boolean reverseForm, Boolean outputFileNameFlag) {
         this.longForm = longForm;
         this.humanReadableForm = humanReadableForm;
         this.reverseForm = reverseForm;
+        this.outputFileNameFlag = outputFileNameFlag;
     }
 
-    public String ls(String pathIn, String outputFileName) {
-        File file = new File(pathIn);
+    public String ls(String currentPath, String outputFileName) throws IOException {
+
+        File obj = new File(currentPath);
+        Path pathObj = obj.toPath();
+
+        BasicFileAttributes attr = Files.readAttributes(pathObj, BasicFileAttributes.class);
+
+        if (outputFileNameFlag == null) {
+            if (obj.isDirectory()) {
+                System.out.println(obj.getAbsolutePath());
+
+                pathObj.forEach(System.out::println);
+            } else {
+                System.out.println("creationTime: " + attr.creationTime());
+                System.out.println("lastAccessTime: " + attr.lastAccessTime());
+                System.out.println("lastModifiedTime: " + attr.lastModifiedTime());
+
+                System.out.println("isDirectory: " + attr.isDirectory());
+                System.out.println("isOther: " + attr.isOther());
+                System.out.println("isRegularFile: " + attr.isRegularFile());
+                System.out.println("isSymbolicLink: " + attr.isSymbolicLink());
+                System.out.println("size: " + attr.size());
+            }
+        }
 
         
-        return "";
+        return "1";
     }
 }

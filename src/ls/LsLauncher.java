@@ -19,14 +19,15 @@ public class LsLauncher {
     private Boolean reverseForm;
 
     @Option(name = "-o", metaVar = "OutputName", usage = "Output file name")
+    private Boolean outputFileNameFlag;
+
+    @Argument(metaVar = "OutputName", usage = "Output file name")
     private String outputFileName;
 
-    @Argument(required = true, metaVar = "InputName", usage = "Input file/directory name")
-    private String pathIn;
+    @Argument(required = true, metaVar = "CurrentName", usage = "Current file/directory name")
+    private String currentPath;
 
-    public static void main(String[] args) {
-        new LsLauncher().launch(args);
-    }
+    public static void main(String[] args) { new LsLauncher().launch(args); }
 
     private void launch(String[] args) {
         CmdLineParser parser = new CmdLineParser(this);
@@ -40,9 +41,10 @@ public class LsLauncher {
             return;
         }
 
-        Ls path = new Ls(longForm, humanReadableForm, reverseForm);
+        Ls path = new Ls(longForm, humanReadableForm, reverseForm, outputFileNameFlag);
         try {
-            String result = path.ls(outputFileName, pathIn);
+            String result = path.ls(outputFileName, currentPath);
+            System.out.println(result);
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
