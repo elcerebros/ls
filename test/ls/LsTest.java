@@ -22,7 +22,7 @@ public class LsTest {
 
     @Test
     public void ls() throws IOException {
-        Ls ls = new Ls(false, true, false, false);
+        Ls ls = new Ls(false, true, false, null);
         ls.ls("files", null);
     }
 }

@@ -14,13 +14,13 @@ public class Ls {
 
     private final Boolean reverseForm;
 
-    private final Boolean outputFileNameFlag;
+    private final String outputFileName;
 
-    public Ls(Boolean longForm, Boolean humanReadableForm, Boolean reverseForm, Boolean outputFileNameFlag) {
+    public Ls(Boolean longForm, Boolean humanReadableForm, Boolean reverseForm, String outputFileName) {
         this.longForm = longForm;
         this.humanReadableForm = humanReadableForm;
         this.reverseForm = reverseForm;
-        this.outputFileNameFlag = outputFileNameFlag;
+        this.outputFileName = outputFileName;
     }
 
     public String ls(String currentPath, String outputFileName) throws IOException {
@@ -30,7 +30,7 @@ public class Ls {
 
         BasicFileAttributes attr = Files.readAttributes(pathObj, BasicFileAttributes.class);
 
-        if (outputFileNameFlag == null) {
+        if (outputFileName == null) {
             if (obj.isDirectory()) {
                 System.out.println(obj.getAbsolutePath());
 
