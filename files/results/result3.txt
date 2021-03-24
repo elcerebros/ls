@@ -1,0 +1,4 @@
+C:\Users\wings\IdeaProjects\ls\files\documents 
+
+rwx 2021-02-12T11:12:29.7300476Z 4281.452 OneDrive_1_12.02.2021.zip 
+rwx 2021-03-11T15:43:25.0394002Z 856.359 Физика_дз_5.pdf 

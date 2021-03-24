@@ -1,0 +1,10 @@
+C:\Users\wings\IdeaProjects\ls\files\xtDWZ8C57xc.jpg 
+
+size: 490.846 
+isSymbolicLink: false 
+isRegularFile: true 
+isOther: false 
+isDirectory: false 
+lastModifiedTime: 2021-03-14T09:45:04.4658571Z 
+lastAccessTime: 2021-03-24T17:12:32.1709085Z 
+creationTime: 2021-03-14T09:45:04.0463069Z 

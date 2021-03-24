@@ -33,18 +33,16 @@ public class LsLauncher {
             parser.parseArgument(args);
         } catch (CmdLineException e) {
             System.err.println(e.getMessage());
-            System.err.println("java ls.java -l -h -r -o OutputName CurrentName");
+            System.err.println("java -jar ls.jar -l -h -r -o OutputName CurrentName");
             parser.printUsage(System.err);
             return;
         }
 
         Ls path = new Ls(longForm, humanReadableForm, reverseForm, outputFileName);
         try {
-            String result = path.ls(outputFileName, currentPath);
-            System.out.println(result);
+            path.ls(currentPath);
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
-
     }
 }
