@@ -41,6 +41,7 @@ public class Ls {
         } else {
             fileFeature(result, obj);
         }
+
         if (reverseForm != null) { Collections.reverse(result); }
         if (outputFileName != null) { output(result, obj); }
         else {
