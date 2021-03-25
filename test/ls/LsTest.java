@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 public class LsTest {
     private void assertFileContent(String name, String expectedContent) {
@@ -55,46 +56,46 @@ public class LsTest {
     }
 
     @Test
-    public void ls6() throws IOException {
+    public void ls6() {
+        Ls example = new Ls(null, null, null, null);
+        assertThrows(AssertionError.class, () -> example.ls("files/empty"));
+    }
+
+    @Test
+    public void ls7() throws IOException {
         Ls example = new Ls(null, true, null,
                 "files/results/result1.txt");
         example.ls("files");
         assertFileContent("files/results/result1.txt",
                 """
                         C:\\Users\\wings\\IdeaProjects\\ls\\files\s
-                            
+                          
                         documents\s
                         EL5kMeW3BFE.jpg\s
+                        empty\s
                         results\s
                         text1.txt\s
                         text2.txt\s
                         text3.txt\s
-                        xtDWZ8C57xc.jpg\s           
-                        """);
-    }
-
-    @Test
-    public void ls7() throws IOException {
-        Ls example = new Ls(null, true, true,
-                "files/results/result2.txt");
-        example.ls("files/xtDWZ8C57xc.jpg");
-        assertFileContent("files/results/result2.txt",
-                """
-                        C:\\Users\\wings\\IdeaProjects\\ls\\files\\xtDWZ8C57xc.jpg\s
-
-                        size: 490.846\s
-                        isSymbolicLink: false\s
-                        isRegularFile: true\s
-                        isOther: false\s
-                        isDirectory: false\s
-                        lastModifiedTime: 2021-03-14T09:45:04.4658571Z\s
-                        lastAccessTime: 2021-03-24T17:12:32.1709085Z\s
-                        creationTime: 2021-03-14T09:45:04.0463069Z\s
+                        xtDWZ8C57xc.jpg\s          
                         """);
     }
 
     @Test
     public void ls8() throws IOException {
+        Ls example = new Ls(true, true, true,
+                "files/results/result2.txt");
+        example.ls("files/xtDWZ8C57xc.jpg");
+        assertFileContent("files/results/result2.txt",
+                """
+                        C:\\Users\\wings\\IdeaProjects\\ls\\files\\xtDWZ8C57xc.jpg\s
+                          
+                        rwx 2021-03-14T09:45:04.4658571Z 490.846 xtDWZ8C57xc.jpg\s
+                        """);
+    }
+
+    @Test
+    public void ls9() throws IOException {
         Ls example = new Ls(true, true, null,
                 "files/results/result3.txt");
         example.ls("files/documents");
