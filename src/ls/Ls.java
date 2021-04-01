@@ -1,26 +1,25 @@
 package ls;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @SuppressWarnings("WeakerAccess")
 public class Ls {
-    private final Boolean longForm;
+    private final boolean longForm;
 
-    private final Boolean humanReadableForm;
+    private final boolean humanReadableForm;
 
-    private final Boolean reverseForm;
+    private final boolean reverseForm;
 
     private final String outputFileName;
 
-    public Ls(Boolean longForm, Boolean humanReadableForm, Boolean reverseForm, String outputFileName) {
+    public Ls(boolean longForm, boolean humanReadableForm, boolean reverseForm, String outputFileName) {
         this.longForm = longForm;
         this.humanReadableForm = humanReadableForm;
         this.reverseForm = reverseForm;
@@ -33,7 +32,8 @@ public class Ls {
 
         if (obj.isDirectory()) {
             File[] objList = obj.listFiles();
-            assert Objects.requireNonNull(objList).length != 0;
+            if (Objects.requireNonNull(objList).length == 0) { return; }
+            Arrays.sort(objList);
 
             for (File file : objList) {
                 fileFeature(result, file);
@@ -42,21 +42,19 @@ public class Ls {
             fileFeature(result, obj);
         }
 
-        if (reverseForm != null) { Collections.reverse(result); }
-        if (outputFileName != null) { output(result, obj); }
+        if (reverseForm) { Collections.reverse(result); }
+        if (outputFileName != null) { output(result); }
         else {
-            System.out.println(obj.getAbsolutePath());
-            System.out.println();
             result.forEach(System.out::println);
         }
     }
 
     private void fileFeature(List<String> result, File file) throws IOException {
-        if (longForm != null) {
+        if (longForm) {
             BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
             String canRead, canWrite, canExecute;
 
-            if (humanReadableForm != null) {
+            if (humanReadableForm) {
                 if (file.canRead()) { canRead = "r"; }
                 else { canRead = "-"; }
                 if (file.canWrite()) { canWrite = "w"; }
@@ -72,29 +70,37 @@ public class Ls {
                 else { canExecute = "0"; }
             }
 
-            result.add(canRead + canWrite + canExecute + " " + attr.lastModifiedTime() + " "
-                    + objSize(attr) + " " + file.getName());
+            result.add(canRead + canWrite + canExecute + "  " + attr.lastModifiedTime() + "  "
+                    + objSize(attr) + "  " + file.getName());
         } else {
             result.add(file.getName());
         }
 
     }
 
-    private double objSize(BasicFileAttributes attr) {
+    private String objSize(BasicFileAttributes attr) {
         double size = attr.size();
+        int i = 0;
+        List<String> measurement = new ArrayList<>();
+        measurement.add(" B");
+        measurement.add(" KB");
+        measurement.add(" MB");
+        measurement.add(" GB");
 
-        if (humanReadableForm != null) {
-            size = BigDecimal.valueOf(size / 1024)
-                    .setScale(3, RoundingMode.HALF_UP)
-                    .doubleValue();
+        if (humanReadableForm) {
+            while (size >= 1024) {
+                size = BigDecimal.valueOf(size / 1024)
+                        .setScale(3, RoundingMode.HALF_UP)
+                        .doubleValue();
+                i++;
+            }
         }
 
-        return size;
+        return size + measurement.get(i);
     }
 
-    private void output(List<String> list, File obj) {
+    private void output(List<String> list) throws IOException {
         try (FileWriter writer = new FileWriter(outputFileName)) {
-            writer.write(obj.getAbsolutePath() + " \n\n");
             list.forEach(element -> {
                 try {
                     writer.write(element + " \n");
@@ -102,8 +108,6 @@ public class Ls {
                     e.printStackTrace();
                 }
             });
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }

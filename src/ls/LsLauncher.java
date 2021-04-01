@@ -10,13 +10,13 @@ import java.io.IOException;
 public class LsLauncher {
 
     @Option(name = "-l", metaVar = "Long", usage = "Long form")
-    private Boolean longForm;
+    private boolean longForm;
 
     @Option(name = "-h", metaVar = "HumanReadable", usage = "Human-readable form")
-    private Boolean humanReadableForm;
+    private boolean humanReadableForm;
 
     @Option(name = "-r", metaVar = "Reverse", usage = "Reverse form")
-    private Boolean reverseForm;
+    private boolean reverseForm;
 
     @Option(name = "-o", metaVar = "OutputNameFlag", usage = "Output file name")
     private String outputFileName;

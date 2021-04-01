@@ -1,3 +1,1 @@
-C:\Users\wings\IdeaProjects\ls\files\xtDWZ8C57xc.jpg 
-
-rwx 2021-03-14T09:45:04.4658571Z 490.846 xtDWZ8C57xc.jpg 
+rwx  2021-03-14T09:45:04.4658571Z  490.846 KB  xtDWZ8C57xc.jpg 
