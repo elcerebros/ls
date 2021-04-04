@@ -43,6 +43,7 @@ public class LsLauncher {
             path.ls(currentPath);
         } catch (IOException e) {
             System.err.println(e.getMessage());
+            System.exit(0);
         }
     }
 }
