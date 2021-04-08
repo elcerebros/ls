@@ -35,6 +35,7 @@ public class LsLauncher {
             System.err.println(e.getMessage());
             System.err.println("java -jar ls.jar -l -h -r -o OutputName CurrentName");
             parser.printUsage(System.err);
+            System.exit(1);
             return;
         }
 
@@ -43,7 +44,7 @@ public class LsLauncher {
             path.ls(currentPath);
         } catch (IOException e) {
             System.err.println(e.getMessage());
-            System.exit(0);
+            System.exit(1);
         }
     }
 }
